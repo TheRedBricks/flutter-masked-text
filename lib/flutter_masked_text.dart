@@ -153,6 +153,10 @@ class MoneyMaskedTextController extends TextEditingController {
       masked = leftSymbol + masked;
     }
 
+    if (value.isNegative) {
+      masked = '-' + masked;
+    }
+
     if (masked != this.text) {
       this.text = masked;
 
@@ -183,6 +187,11 @@ class MoneyMaskedTextController extends TextEditingController {
 
     cleanedText = _getOnlyNumbers(cleanedText);
 
+    // show negative value
+    if (text.indexOf('-') == 0 && !leftSymbol.startsWith('-')) {
+      cleanedText = '-' + cleanedText;
+    }
+
     return cleanedText;
   }
 
@@ -199,6 +208,10 @@ class MoneyMaskedTextController extends TextEditingController {
   String _applyMask(double value) {
     String textRepresentation =
         value.toStringAsFixed(2).replaceAll('.', this.decimalSeparator);
+
+    if (value.isNegative) {
+      textRepresentation = textRepresentation.substring(1);
+    }
 
     List<String> numberParts = [];
 

@@ -147,5 +147,26 @@ void main() {
 
       expect(controller.text, 'R\$ 123,45');
     });
+
+    test('value -1123.45 results in "-1,123,45"', () {
+      var controller = new MoneyMaskedTextController();
+      controller.updateValue(-1123.45);
+
+      expect(controller.text, '-1.123,45');
+    });
+
+    test('rightSymbol " US\$" and value -123.45 results in "-123,45 US\$"', () {
+      var controller = new MoneyMaskedTextController(rightSymbol: ' US\$');
+      controller.updateValue(-123.45);
+
+      expect(controller.text, '-123,45 US\$');
+    });
+
+    test('leftSymbol "R\$ " and value -123.45 results in "-R\$ 123,45"', () {
+      var controller = new MoneyMaskedTextController(leftSymbol: 'R\$ ');
+      controller.updateValue(-123.45);
+
+      expect(controller.text, '-R\$ 123,45');
+    });
   });
 }
